@@ -70,9 +70,16 @@ class Running(Training):
     COEFF_CALORIE_2: int = 20
 
     def get_spent_calories(self) -> float:
-        calories = (self.COEFF_CALORIE_1 * self.get_mean_speed() -
-                    self.COEFF_CALORIE_2) * self.weight / self.M_IN_KM \
-                   * (self.duration * self.MIN_IN_HOUR)
+        calories = ((self.COEFF_CALORIE_1 * self.get_mean_speed()
+                     - self.COEFF_CALORIE_2) * self.weight / self.M_IN_KM
+                    * (self.duration * self.MIN_IN_HOUR))
+        #        run_step_1 = ((self.COEFF_CALORIE_1 * self.get_mean_speed())
+        #                      - self.COEFF_CALORIE_2)
+        #       run_step_2 = self.weight / self.M_IN_KM
+        #       run_step_3 = self.duration * self.MIN_IN_HOUR
+        #        calories = run_step_1 * run_step_2 * run_step_3
+        # Тут пытался разбить формулу, как ты просил, но как я ее только не
+        # разбивал, тесты проходить не хочет(((
         return calories
 
 
@@ -91,10 +98,10 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
-        calories = ((self.COEFF_CALORIE_3 * self.weight +
-                     ((self.get_mean_speed() ** 2) // self.height) *
-                     self.COEFF_CALORIE_4 * self.weight) *
-                    (self.duration * self.MIN_IN_HOUR))
+        walk_step_1 = (self.get_mean_speed() ** 2) // self.height
+        walk_step_2 = (self.COEFF_CALORIE_3 * self.weight + walk_step_1
+                       * self.COEFF_CALORIE_4 * self.weight)
+        calories = walk_step_2 * (self.duration * self.MIN_IN_HOUR)
         return calories
 
 
