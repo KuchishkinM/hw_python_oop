@@ -24,23 +24,29 @@ class InfoMessage:
                                                       )
 
 
-@dataclass()
 class Training:
     """Base class of training."""
-    action: int
-    duration: float
-    weight: float
     M_IN_KM: int = 1000
     LEN_STEP: float = 0.65
     MIN_IN_HOUR: int = 60
 
+    def __init__(self,
+                 action: int,
+                 duration: float,
+                 weight: float,
+                 ) -> None:
+        self.action = action
+        self.duration = duration
+        self.weight = weight
+
     def get_distance(self) -> float:
-        """Calculates distance based on action and two constants."""
+        """Calculates distance in km. based on action and two constants."""
         distance = self.action * self.LEN_STEP / self.M_IN_KM
         return distance
 
     def get_mean_speed(self) -> float:
-        """Calculates average speed based on duration and distance."""
+        """Calculates average speed in km/hour based on duration and
+        distance."""
         speed = self.get_distance() / self.duration
         return speed
 
@@ -64,11 +70,9 @@ class Running(Training):
     COEFF_CALORIE_2: int = 20
 
     def get_spent_calories(self) -> float:
-        run_step_1 = (self.COEFF_CALORIE_1 * self.get_mean_speed()
-                      - self.COEFF_CALORIE_2)
-        run_step_2 = ((self.weight / self.M_IN_KM)
-                      * (self.duration * self.MIN_IN_HOUR))
-        calories = run_step_1 * run_step_2
+        calories = (self.COEFF_CALORIE_1 * self.get_mean_speed() -
+                    self.COEFF_CALORIE_2) * self.weight / self.M_IN_KM \
+                   * (self.duration * self.MIN_IN_HOUR)
         return calories
 
 
@@ -87,10 +91,10 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
-        walk_step_1 = (self.get_mean_speed() ** 2) // self.height
-        walk_step_2 = (self.COEFF_CALORIE_3 * self.weight + walk_step_1
-                       * self.COEFF_CALORIE_4 * self.weight)
-        calories = walk_step_2 * (self.duration * self.MIN_IN_HOUR)
+        calories = ((self.COEFF_CALORIE_3 * self.weight +
+                     ((self.get_mean_speed() ** 2) // self.height) *
+                     self.COEFF_CALORIE_4 * self.weight) *
+                    (self.duration * self.MIN_IN_HOUR))
         return calories
 
 
@@ -142,16 +146,16 @@ def read_package(workout_type: str, data: list) -> Training:
 
 
 def main(training: Training) -> None:
-    """Main function. Print info message about training."""
+    """Main function."""
     info = training.show_training_info()
     print(info.get_message())
 
 
 if __name__ == '__main__':
-    packages: list = [
+    packages = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
-        ('WLK', [9000, 1, 75, 180])
+        ('WLK', [9000, 1, 75, 180]),
     ]
 
     for workout_type, data in packages:
