@@ -1,5 +1,5 @@
 from dataclasses import dataclass, asdict
-from abc import ABCMeta
+#from abc import ABCMeta
 
 
 @dataclass
@@ -54,10 +54,15 @@ class Training:
         speed = self.get_distance() / self.duration
         return speed
 
-    def get_spent_calories(metaclass=ABCMeta) -> float:
-        """Calculates the number of calories burned in a workout
-        based on the type of workout"""
-        pass
+    # def get_spent_calories(metaclass=ABCMeta) -> float:
+    #     """Calculates the number of calories burned in a workout
+    #     based on the type of workout"""
+    #    pass
+    # Хотел вот так сделать, но проверку на ревью не проходит((
+    def get_spent_calories(self) -> float:
+         """Calculates the number of calories burned in a workout
+         based on the type of workout."""
+         pass
 
     def show_training_info(self) -> InfoMessage:
         """Get back info message about training."""
