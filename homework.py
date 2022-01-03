@@ -1,7 +1,5 @@
 from dataclasses import dataclass, asdict
-
-
-# from abc import ABCMeta
+from abc import ABCMeta
 
 
 @dataclass
@@ -56,15 +54,9 @@ class Training:
         speed = self.get_distance() / self.duration
         return speed
 
-    #   def get_spent_calories(metaclass=ABCMeta) -> float:
-    #        """Calculates the number of calories burned in a workout
-    #        based on the type of workout"""
-    #       pass
-    #   Хотел вот так сделать, но проверку на ревью не проходит((
-
-    def get_spent_calories(self) -> float:
+    def get_spent_calories(self, metaclass=ABCMeta) -> float:
         """Calculates the number of calories burned in a workout
-        based on the type of workout."""
+        based on the type of workout"""
         pass
 
     def show_training_info(self) -> InfoMessage:
@@ -151,7 +143,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list[int]) -> Training:
     """Reads data from sensors and converts them into a dictionary."""
-    training_name: dict = {
+    training_name: type[Training] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
