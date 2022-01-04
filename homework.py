@@ -1,5 +1,6 @@
 from dataclasses import dataclass, asdict
 from abc import ABCMeta
+from typing import Dict, Type, List, Tuple
 
 
 @dataclass
@@ -19,7 +20,7 @@ class InfoMessage:
                           'Потрачено ккал: {calories:.3f}.')
 
     def template_format(self, training_info: str,
-                        parameters: dict[str, str]) -> str:
+                        parameters: Dict[str, str]) -> str:
         return training_info.format(**parameters)
 
     def get_message(self) -> str:
@@ -141,9 +142,9 @@ class Swimming(Training):
         return calories
 
 
-def read_package(workout_type: str, data: list) -> Training:
+def read_package(workout_type: str, data: List[int]) -> Training:
     """Reads data from sensors and converts them into a dictionary."""
-    training_name: dict = {
+    training_name: Dict = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
@@ -169,7 +170,7 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages = [
+    packages: List[Tuple[str, List[int]]] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
