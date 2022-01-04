@@ -1,6 +1,6 @@
 from dataclasses import dataclass, asdict
 from abc import ABCMeta
-from typing import Dict, Type, List, Tuple
+from typing import Dict, List, Tuple
 
 
 @dataclass
