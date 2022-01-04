@@ -54,7 +54,7 @@ class Training:
         speed = self.get_distance() / self.duration
         return speed
 
-    def get_spent_calories(metaclass=ABCMeta) -> float:
+    def get_spent_calories(self, metaclass=ABCMeta) -> float:
         """Calculates the number of calories burned in a workout
         based on the type of workout"""
         pass
@@ -141,7 +141,7 @@ class Swimming(Training):
         return calories
 
 
-def read_package(workout_type: str, data: list[int]) -> Training:
+def read_package(workout_type: str, data: list) -> Training:
     """Reads data from sensors and converts them into a dictionary."""
     training_name: dict = {
         'SWM': Swimming,
