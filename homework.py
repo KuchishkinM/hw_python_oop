@@ -136,9 +136,8 @@ class Swimming(Training):
         return speed
 
     def get_spent_calories(self) -> float:
-        mean_speed_with_coeff = (self.get_mean_speed() +
-                                 self.SWM_COEFF_CALORIE_1)
-        calories = (mean_speed_with_coeff * self.SWM_COEFF_CALORIE_2
+        mean_speed_wth_coeff = self.get_mean_speed() + self.SWM_COEFF_CALORIE_1
+        calories = (mean_speed_wth_coeff * self.SWM_COEFF_CALORIE_2
                     * self.weight)
         return calories
 
@@ -151,7 +150,7 @@ def read_package(workout_type: str, data: List[int]) -> Training:
         'WLK': SportsWalking
     }
     if workout_type not in training_name:
-        raise ValueError(f'Sorry, but {workout_type} wrong name WORKOUT_TYPE.'
+        raise ValueError(f'Sorry, but {workout_type} wrong name WORKOUT_TYPE. '
                          'Try to use one of: (SWM, RUN, WLK)')
     return training_name[workout_type](*data)
 
