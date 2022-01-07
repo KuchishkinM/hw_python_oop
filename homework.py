@@ -51,7 +51,9 @@ class Training:
     def get_spent_calories(self) -> float:
         """Calculates the number of calories burned in a workout
         based on the type of workout"""
-        raise NotImplementedError('Define get_spent_calories!!!')
+        raise NotImplementedError(f'Define get_spent_calories in '
+                                  f'{self.__class__.__name__} class'
+                                  )
 
     def show_training_info(self) -> InfoMessage:
         """Get back info message about training."""
@@ -81,7 +83,6 @@ class SportsWalking(Training):
     """Training: sports walking."""
     WLK_COEFF_CALORIE_1: float = 0.035
     WLK_COEFF_CALORIE_2: float = 0.029
-    WLK_COEFF_CALORIE_3: float = 2
 
     def __init__(self,
                  action,
@@ -95,8 +96,7 @@ class SportsWalking(Training):
     def get_spent_calories(self) -> float:
         weight_with_coeff_1 = self.WLK_COEFF_CALORIE_1 * self.weight
         weight_with_coeff_2 = self.WLK_COEFF_CALORIE_2 * self.weight
-        mean_speed_with_weight = ((self.get_mean_speed()
-                                   ** self.WLK_COEFF_CALORIE_3)
+        mean_speed_with_weight = ((self.get_mean_speed() ** 2)
                                   // self.height)
         duration_minutes = self.duration * self.MIN_IN_HOUR
         calories = ((weight_with_coeff_1 + mean_speed_with_weight
@@ -151,7 +151,11 @@ def read_package(workout_type: str, data: List[int]) -> Training:
     }
     if workout_type not in training_name:
         raise ValueError(f'Sorry, but {workout_type} wrong name WORKOUT_TYPE. '
-                         'Try to use one of: (SWM, RUN, WLK)')
+                         f'Try to use one of: ('
+                         f'{packages[0][0]}, '
+                         f'{packages[1][0]}, '
+                         f'{packages[2][0]})'
+                         )
     return training_name[workout_type](*data)
 
 
