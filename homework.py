@@ -150,8 +150,9 @@ def read_package(workout_type: str, data: List[int]) -> Training:
         'WLK': SportsWalking
     }
     if workout_type not in training_name:
+        training_name_keys = tuple(training_name)
         raise ValueError(f'Sorry, but {workout_type} wrong name WORKOUT_TYPE. '
-                         f'Try to use one of:{tuple(training_name)}'
+                         f'Try to use one of:{training_name_keys}'
                          )
     return training_name[workout_type](*data)
 
